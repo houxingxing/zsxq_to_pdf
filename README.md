@@ -1,13 +1,15 @@
 # 爬取知识星球，并制作成 PDF 电子书
 
+原版：[xueshanlinghu/zsxq_to_pdf](http://github.com/xueshanlinghu/zsxq_to_pdf)
 
+首先感谢原版作者，我在原版上做了些修改和补充，以适应问答式的知识星球模式。
 ## 功能
 
-爬取知识星球的精华区，并制作成 PDF 电子书。
+爬取知识星球，并制作成 PDF 电子书。
 
 ## 效果图
 
-![image-20210623210003992](assets/image-20210623210003992.png)
+![image-20210623210003992](assets/image_20211121114358.png)
 
 ## 用法
 
@@ -20,7 +22,9 @@ pip install requests beautifulsoup4 pdfkit
 安装 wkhtmltox，[https://wkhtmltopdf.org/downloads.html](https://wkhtmltopdf.org/downloads.html) 。安装后将安装目录下的 bin 目录加入到环境变量。这是用来制作 pdf 用的，可以将 html 格式转为 pdf 格式。
 
 接下来请打开 `crawl.py` 文件，修改配置。
-
+```bash
+config_pdf = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files (x86)\wkhtmltopdf\bin\wkhtmltopdf.exe') #配置wkhtmltopdf
+```
 请先登录你有权限查看的星球的账号，进入该星球页面，请使用谷歌浏览器刷新页面，在 `Network` 面板的抓包内容中找到 `topics?...` 这样的请求，返回的是 `json` 内容。
 
 将这个包的 `cookie` 部分复制到代码中 `headers` 部分的 `Cookie` 一栏，将这个请求的 `url`，域名为 `api.zsxq.com` 开头的，复制到代码中 `start_url` 的部分，注意，如果你只需要该星球星主的文章，这个网址一定要注意 `scope` 参数（该星球所有文章填写 `all`）：`topics?scope=by_owner&count=20`。然后代码再往下是批量获取该星球所有还是每过一段时间生成一个 pdf 文件，你可以自行选择修改调整。
